@@ -1,0 +1,5 @@
+*.log
+*/Debug/
+.metadata/
+*/output/
+*/data/
