@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdtprojectproperties>
+<section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.IncludePaths">
+<language name="s">
+
+</language>
+<language name="c,C,cc,cxx,cpp,S">
+<includepath>/home/jake/Desktop/Projects/PetaLinux/avnet-digilent-zedboard-2018.3/images/linux/usr/include</includepath>
+<includepath>/home/jake/Desktop/Projects/PetaLinux/avnet-digilent-zedboard-2018.3/images/linux/usr/include/opencv2</includepath>
+
+</language>
+<language name="ld">
+
+</language>
+<language name="Object File">
+
+</language>
+</section>
+<section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.Macros">
+<language name="s">
+
+</language>
+<language name="c,C,cc,cxx,cpp,S">
+
+</language>
+<language name="ld">
+
+</language>
+<language name="Object File">
+
+</language>
+</section>
+</cdtprojectproperties>

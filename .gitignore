@@ -3,3 +3,7 @@
 .metadata/
 */output/
 */data/
+webtalk/
+*/res/
+*.cproject
+*.project
