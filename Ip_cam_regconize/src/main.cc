@@ -13,15 +13,14 @@ int main(int argc, const char **argv)
     //Initial Variable
 	string cascadeName, nestedCascadeName;
     //Detected_model
-    string frontal_face_detect_path = "/mnt/model/haarcascade_frontalface_default.xml";
+    string frontal_face_detect_path = "/mnt/models/haarcascade_frontalface_default.xml";
 
     //Regconized_model
-    string model_face_regconition_path = "/mnt/model/model.yml";
+    string model_face_regconition_path = "/mnt/models/model.xml";
 
     //Database_id
     string database = "/mnt/csv/database.csv";
 
-    VideoCapture capture; // VideoCapture class for playing video for which faces to be detected
     Mat frame, image;
 
     CascadeClassifier cascade; // PreDefined trained XML classifiers with facial features
@@ -30,17 +29,6 @@ int main(int argc, const char **argv)
 
     // If the input is the web camera, pass 0 instead of the video file name
 //    string url="192.168.1.16:8081";
-    string url="/mnt/baohan.mp4";
-
-      VideoCapture cap(url,CAP_FFMPEG);
-//      cap.open("udpsrc port=5000 ! v4l2src ! videoconvert ");
-//      cap.set(CV_CAP_PROP_FORMAT, CV_16UC1);
-      // Check if camera opened successfully
-      if(!cap.isOpened()){
-        cout << "sai roi" << endl;
-        return -1;
-      }
-
 
     // GUI
     cout << "usage: " << argv[0] << endl;
@@ -66,31 +54,30 @@ int main(int argc, const char **argv)
         exit(1);
     cout << "- Face detector model: " << frontal_face_detect_path << endl;
     cout << "- Face regconizer model: " << model_face_regconition_path << endl;
-//    if (!checkUserEnter())
-//    {
-//        cout << "Well, BYE " << endl;
-//        cin.get();
-//        return 0;
-//    }
-
-//    Create model
-    Ptr<FaceRecognizer> model = LBPHFaceRecognizer::create();
-
-    // Load classifiers from "opencv/data/haarcascades" directory
-    cout << "Loading model object detected" << endl;
-    if (cascade.load(frontal_face_detect_path))
-        cout << "OK" << endl;
-
-    //Load model
-    cout << "Loading model face regconized" << endl;
-    model->read(model_face_regconition_path);
-    if (model->empty())
+    if (!checkUserEnter())
     {
-        cout << "Loading fail" << endl;
+        cout << "Well, BYE " << endl;
+        cin.get();
         return 0;
     }
-    cout << "OK" << endl;
 
+    // Load classifiers from "opencv/data/haarcascades" directory
+    cout << "Loading model object detected ..." << endl;
+    if (cascade.load(frontal_face_detect_path))
+        cout << "OK" << endl;
+    else {
+    	cout<<"Loading fail, stop program"<<endl;
+    	return 0;
+    }
+	cout<<"Loading model..."<<endl;
+	Ptr<FaceRecognizer> model = LBPHFaceRecognizer::create();
+	model->read(model_face_regconition_path);
+	if (model->empty())
+	{
+		cout << "Model load khong thanh cong, dung chuong trinh " << endl;
+		return 0;
+	}
+	cout << "Load model successful" << endl;
     /*Loading dataset_id*/
     vector<Data> data;
 
@@ -109,31 +96,28 @@ int main(int argc, const char **argv)
 
     cout << "Face Detection Started...." << endl;
     // Config ip cam
-//     string videoStreamAddress = "http://192.168.1.16:8081/video.cgi?.mjpg";
-//
-//    capture.open(videoStreamAddress);
-//    if (capture.isOpened())
-//    {
+    string url="/mnt/video/baohan.mp4";
+
+    VideoCapture capture(url,CAP_FFMPEG);
+
+    if(!capture.isOpened()) cout<<"Couldn't open camera"<<endl;
+    while (capture.isOpened())
+    {
 //        // Capture frames from video and detect faces
 //
-//        while (1)
-//        {
-//            capture >> frame;
-//            if (frame.empty())
-//                break;
-//            Mat frame1 = frame.clone();
-//            detectAndDraw(frame1, cascade, scale, model);
-//            char c = (char)waitKey(10);
-//            // Press q to exit from window
-//            if (c == 27 || c == 'q' || c == 'Q')
-//                break;
-//        }
-//    }
-//    else
-//        cout << "Could not Open Camera";
+            capture >> frame;
+            if (frame.empty())
+                break;
+            Mat frame1 = frame.clone();
+            detectAndDraw(frame1, cascade, scale, model);
+            char c = (char)waitKey(10);
+            // Press q to exit from window
+            if (c == 27 || c == 'q' || c == 'Q')
+                break;
+    }
 //
 ////    delete[] names;
-//    cin.get();
+//
     return 0;
 }
 

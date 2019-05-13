@@ -3,7 +3,7 @@
 int main(int argc, const char *argv[])
 {
 	//Checking arguments
-	cout << "usage: <model_path> <data_path>" << endl;
+	cout << "usage: <model_path> <csv_testing_path>" << endl;
 	cout << "\n----------------------------------------------------------\n"
 		 << endl;
 

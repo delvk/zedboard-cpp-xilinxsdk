@@ -3,7 +3,7 @@
 int main(int argc, const char *argv[])
 {
 	//Checking arguments
-	cout << "usage: <path_training_set> <output_folder>" << endl;
+	cout << "usage: <training_csv> <output_folder>" << endl;
 	cout << "\n----------------------------------------------------------\n"
 		 << endl;
 
@@ -81,7 +81,7 @@ int main(int argc, const char *argv[])
 	Ptr<FaceRecognizer> model = LBPHFaceRecognizer::create();
 	model->train(images, labels);
 
-	string filename = output_folder+"/model.yml";
+	string filename = output_folder+"/model.xml";
 	cout<<"Done training, saving file to "<<filename<<endl;
 
 	FileStorage fs;
