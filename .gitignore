@@ -7,3 +7,4 @@ webtalk/
 */res/
 *.cproject
 *.project
+*/Release/

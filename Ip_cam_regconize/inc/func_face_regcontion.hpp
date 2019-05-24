@@ -50,45 +50,33 @@ static bool checkUserEnter(int &attemp_number) {
 	//Exit after attempt
 	if (attemp_number == 0) return false;
 }
-static int userChooseAlg() {
-	int what = -1;
-	//cout << "012345678901234567890123456789";
-	cout << "____________________________" << endl;
-	cout << "Danh sach giai thuat:       |" << endl;
-	cout << setw(2) << EIGENFACES << ". " << left << setw(24) << "Eigenfaces" << "|" << endl << right;
-	cout << setw(2) << FISHERFACES << ". " << left << setw(24) << "Fisherfaces" << "|" << endl << right;
-	cout << setw(2) << LBPHFACES << ". " << left << setw(24) << "LBPHFaces" << "|" << endl << right;
-	for (int i = 0; i < 28; i++)cout << "_";
-	cout << "\nNhap giai thuat ban muon: ";
-	cin >> what;
-	cout << "\nBan da chon giai thuat so " << what << endl;
-	return what;
-}
-string getName(int id, vector<Data> &data) {
-	for (int i = 0; i < data.size(); i++) {
-		if (id == data[i].id) return data[i].name;
-	}
-	string fail = "unknow_cannotfind";
-	return fail;
-}
-bool read_dataset_id(const string &path, vector<Data> &data) {
-	ifstream file(path.c_str(), ifstream::in);
-	if (!file) {
-		string error_message = "No valid input file was given, please check the given filename.";
+
+bool read_database(string &filename, vector<string> &data)
+{
+	int idx = 0;
+	std::ifstream file(filename.c_str(), ifstream::in);
+	if (!file)
+	{
+		string error_message = "Check database file name.";
 		CV_Error(Error::StsBadArg, error_message);
-		return true;
 	}
-	string line, name, id;
-	const char separator = ';';
-	bool check = true;
-	while (getline(file, line)) {
+	string line, id, classlabel;
+	while (getline(file, line))
+	{
 		stringstream liness(line);
-		getline(liness, id, separator);
-		getline(liness, name, separator);
-		if (!id.empty() && !name.empty()) {
-			data.push_back(Data(atoi(id.c_str()), name));
+		getline(liness, id, ';');
+		getline(liness, classlabel);
+		if (!id.empty() && !classlabel.empty())
+		{
+			if (atoi(id.c_str()) != idx++)
+			{
+				cout << "ERROR: Label " << id << " saved as data[" << idx << "]" << endl;
+				return false;
+			}
+			data.push_back(classlabel);
+			//XU LI ANH MAU BGR SANG GRAY
 		}
-		else check = false;
 	}
-	return check;
+	return true;
 }
+

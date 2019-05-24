@@ -1,5 +1,6 @@
 #include "../inc/face_regconition.hpp"
 #include "../inc/func_face_regcontion.hpp"
+#include <time.h>
 int main(int argc, const char *argv[])
 {
 	//Checking arguments
@@ -79,9 +80,14 @@ int main(int argc, const char *argv[])
 //	/*---TRAINING---*/
 	cout<<"Start training ..."<<endl;
 	Ptr<FaceRecognizer> model = LBPHFaceRecognizer::create();
+//	Ptr<EigenFaceRecognizer> model = EigenFaceRecognizer::create();
+//	Ptr<FisherFaceRecognizer> model = FisherFaceRecognizer::create();
+	clock_t t;
+	t = clock();
 	model->train(images, labels);
-
-	string filename = output_folder+"/model.xml";
+	t = clock() - t;
+	cout<<"Took "<< t <<" seconds to train LBPHFaceRecognizer over "<<images.size()<<" images"<<endl;
+	string filename = output_folder+"/lbph.yml";
 	cout<<"Done training, saving file to "<<filename<<endl;
 
 	FileStorage fs;
@@ -99,6 +105,6 @@ int main(int argc, const char *argv[])
 	{
 		cout << "Error: Model is empty" << endl;
 	}
-	else cout << "Save model successful" << endl;
+	else cout << "Save model successful. Exit" << endl;
 	return 0;
 }

@@ -20,6 +20,7 @@ int main(int argc, const char *argv[])
 	//Reading model
 	cout<<"Loading model..."<<endl;
 	Ptr<FaceRecognizer> model = LBPHFaceRecognizer::create();
+//	Ptr<EigenFaceRecognizer> model = EigenFaceRecognizer::create();
 	model->read(model_path);
 	if (model->empty())
 	{
@@ -50,6 +51,7 @@ int main(int argc, const char *argv[])
 
 	//Predict output
 	cout<<"Start testing.."<<endl;
+	int truePositive = 0;
 	for (unsigned int i = 0; i < testLabel.size(); i++)
 	{
 		int label = -1;
@@ -59,10 +61,14 @@ int main(int argc, const char *argv[])
 		predicted_confidence.push_back(confident);
 		if (predicted_label[i] != testLabel[i])
 			check = "*";
-		else
+		else{
 			check = "";
+			truePositive++;
+		}
 		cout << check << "predict: " << predicted_label[i] << " | " << testLabel[i] << " -- " << predicted_confidence[i] << endl;
 	}
+	double acc = (double)truePositive/double(testLabel.size());
+	cout<<"Accuracy: "<<acc<<endl;
 	cout << "Threshold: " << model->getThreshold() << endl;
 	//Clean up
 	testSample.clear();
