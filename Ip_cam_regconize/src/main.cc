@@ -89,8 +89,8 @@ int main(int argc, const char **argv)
 
     cout << "Face Detection Started...." << endl;
 
-    string url="/mnt/video/khuong.webm";
-//    string url="http://192.168.1.16:8081/video.cgi?.mjpg";
+//    string url="/mnt/video/khuong.webm";
+    string url="http://192.168.1.16:8081/video.cgi?.mjpg";
     int codec = VideoWriter::fourcc('M', 'J', 'P', 'G');
     capture.open(url,CAP_FFMPEG);
 	video.open("/mnt/outcpp.avi", codec, 20.0, Size(int(capture.get(3)), int(capture.get(4))));
